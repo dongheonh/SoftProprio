@@ -18,7 +18,7 @@ exp1_claib10_i = length(data_Sync10) + exp1_claib9_i;   % M hand manipulation
 exp1_claib11_i = length(data_Sync11) + exp1_claib10_i;   % M actuator 1 ------- loading **** exp1_claib10_i - exp1_claib11_i
 exp1_claib12_i = length(data_Sync12) + exp1_claib11_i;   % M actuator 2
 
-%% RMSE at an exprm. 
+%% RMSE at an exprm. DATA SET
 %cI = exp1_claib5_i:exp1_claib6_i; % current index
 %cI = exp1_claib8_i:exp1_claib9_i; % current index
 cI = 1:exp1_claib5_i; % current index % 가장 베스트 가장 정확. 로딩 없을때
@@ -95,7 +95,7 @@ ang7errors_F = (ang_7_Vjnt(cI, :) - ang_7_Fjnt(cI, :));
 
 
 %% RMSE AT MANIPULATOR - error propagation
-% IMU + Flex Sensor + KF (No ML) %%%%%%%%%%%%%%%%%%%%%%%%%%  THIS IS ADDED
+% IMU + Flex Sensor + KF
 [cord_rmseXKF, cord_rmseYKF, rmsePxKF, rmsePyKF, errpP2xKF, errpP2yKF, ...
     errpP3xKF, errpP3yKF, errpP4xKF, errpP4yKF, errpP5xKF, errpP5yKF, ...
     errpP6xKF, errpP6yKF, errpP7xKF, errpP7yKF] = calculate_rmse_values_MANIPUL( ...
@@ -104,7 +104,6 @@ ang7errors_F = (ang_7_Vjnt(cI, :) - ang_7_Fjnt(cI, :));
     finalCord5jntNO(cI, :), finalCord6jntNO(cI, :), finalCord7jntNO(cI, :), ...
     cord2_Vjnt(cI, :), cord3_Vjnt(cI, :), cord4_Vjnt(cI, :), cord5_Vjnt(cI, :), ...
     cord6_Vjnt(cI, :), cord7_Vjnt(cI, :), ang2errors, ang3errors, ang4errors, ang5errors, ang6errors);
-
 
 % Flex sensor + PCC
 [cord_rmseXF, cord_rmseYF, rmsePxF, rmsePyF, errpP2xF, errpP2yF, errpP3xF, ...
@@ -126,125 +125,59 @@ ang7errors_F = (ang_7_Vjnt(cI, :) - ang_7_Fjnt(cI, :));
     cord2_Vjnt(cI, :), cord3_Vjnt(cI, :), cord4_Vjnt(cI, :), cord5_Vjnt(cI, :), ...
     cord6_Vjnt(cI, :), cord7_Vjnt(cI, :), ang2errors_IC, ang3errors_IC, ang4errors_IC, ang5errors_IC, ang6errors_IC);
 
-% Flex sensor + PCC + ML
-[cord_rmseXFML, cord_rmseYFML, rmsePxFML, rmsePyFML,  errpP2xFML, errpP2yFML, ...
-    errpP3xFML, errpP3yFML,errpP4xFML, errpP4yFML,errpP5xFML, errpP5yFML,...
-    errpP6xFML, errpP6yFML,errpP7xFML, errpP7yFML] = calculate_rmse_values_MANIPUL( ...
-    ang2rmse_F, ang3rmse_F, ang4rmse_F, ang5rmse_F, ang6rmse_F, ...
-    cord_ml_2Fjnt(cI, :), cord_ml_3Fjnt(cI, :), cord_ml_4Fjnt(cI, :), ...
-    cord_ml_5Fjnt(cI, :), cord_ml_6Fjnt(cI, :), cord_ml_7Fjnt(cI, :), ...
-    cord2_Vjnt(cI, :), cord3_Vjnt(cI, :), cord4_Vjnt(cI, :), cord5_Vjnt(cI, :), ...
-    cord6_Vjnt(cI, :), cord7_Vjnt(cI, :), ang2errors_F, ang3errors_F, ang4errors_F, ang5errors_F, ang6errors_F);
-
-% IMU + PCC + ML
-[cord_rmseXICML, cord_rmseYICML, rmsePxICML, rmsePyICML, errpP2xICML, ...
-    errpP2yICML, errpP3xICML, errpP3yICML, errpP4xICML, errpP4yICML,errpP5xICML, ...
-    errpP5yICML, errpP6xICML, errpP6yICML,errpP7xICML, errpP7yICML] = calculate_rmse_values_MANIPUL( ...
-    ang2rmse_IC, ang3rmse_IC, ang4rmse_IC, ang5rmse_IC, ang6rmse_IC, ...
-    cord_ml_2ICjnt(cI, :), cord_ml_3ICjnt(cI, :), cord_ml_4ICjnt(cI, :), ...
-    cord_ml_5ICjnt(cI, :), cord_ml_6ICjnt(cI, :), cord_ml_7ICjnt(cI, :), ...
-    cord2_Vjnt(cI, :), cord3_Vjnt(cI, :), cord4_Vjnt(cI, :), cord5_Vjnt(cI, :), ...
-    cord6_Vjnt(cI, :), cord7_Vjnt(cI, :), ang2errors_IC, ang3errors_IC, ang4errors_IC, ang5errors_IC, ang6errors_IC);
-
-% Flex sensor + PCC + ML + IMU + PCC + ML + KF  %% CHANGE THIS
-[cord_rmseX,cord_rmseY, rmsePx, rmsePy, errpP2x, errpP2y, errpP3x, errpP3y, ...
-    errpP4x, errpP4y,errpP5x, errpP5y,errpP6x, errpP6y,errpP7x, errpP7y] = calculate_rmse_values_MANIPUL( ...
-    ang2rmse, ang3rmse, ang4rmse, ang5rmse, ang6rmse, ...
-    finalCord2jnt(cI, :), finalCord3jnt(cI, :), finalCord4jnt(cI, :), ...
-    finalCord5jnt(cI, :), finalCord6jnt(cI, :), finalCord7jnt(cI, :), ...
-    cord2_Vjnt(cI, :), cord3_Vjnt(cI, :), cord4_Vjnt(cI, :), cord5_Vjnt(cI, :), ...
-    cord6_Vjnt(cI, :), cord7_Vjnt(cI, :), ang2errors, ang3errors, ang4errors, ang5errors, ang6errors);
-
 %% 2nd - Add KF Fusioned Only
 fusionedF = sqrt(abs(errpP2xF).^2 + abs(errpP2yF).^2);
 fusionedIC = sqrt(abs(errpP2xIC).^2 + abs(errpP2yIC).^2);
-fusionedFML = sqrt(abs(errpP2xFML).^2 + abs(errpP2yFML).^2);
-fusionedICML = sqrt(abs(errpP2xICML).^2 + abs(errpP2yICML).^2);
 fusionedKF = sqrt(abs(errpP2xKF).^2 + abs(errpP2yKF).^2); % KF Only
-fusioned = sqrt(abs(errpP2x).^2 + abs(errpP2y).^2);
 
 rmseFINALF2 = sqrt(mean(fusionedF.^2));
 rmseFINALIC2 = sqrt(mean(fusionedIC.^2));
-rmseFINALFML2 = sqrt(mean(fusionedFML.^2));
-rmseFINALICML2 = sqrt(mean(fusionedICML.^2));
 rmseFINALKF2 = sqrt(mean(fusionedKF.^2)); % KF Only
-rmseFINAL2 = sqrt(mean(fusioned.^2));
 
 %% 3rd
 fusionedF = sqrt(abs(errpP3xF).^2 + abs(errpP3yF).^2);
 fusionedIC = sqrt(abs(errpP3xIC).^2 + abs(errpP3yIC).^2);
-fusionedFML = sqrt(abs(errpP3xFML).^2 + abs(errpP3yFML).^2);
-fusionedICML = sqrt(abs(errpP3xICML).^2 + abs(errpP3yICML).^2);
 fusionedKF = sqrt(abs(errpP3xKF).^2 + abs(errpP3yKF).^2); % KF Only
-fusioned = sqrt(abs(errpP3x).^2 + abs(errpP3y).^2);
 
 rmseFINALF3 = sqrt(mean(fusionedF.^2));
 rmseFINALIC3 = sqrt(mean(fusionedIC.^2));
-rmseFINALFML3 = sqrt(mean(fusionedFML.^2));
-rmseFINALICML3 = sqrt(mean(fusionedICML.^2));
 rmseFINALKF3 = sqrt(mean(fusionedKF.^2)); % KF Only
-rmseFINAL3 = sqrt(mean(fusioned.^2));
 
 %% 4th
 fusionedF = sqrt(abs(errpP4xF).^2 + abs(errpP4yF).^2);
 fusionedIC = sqrt(abs(errpP4xIC).^2 + abs(errpP4yIC).^2);
-fusionedFML = sqrt(abs(errpP4xFML).^2 + abs(errpP4yFML).^2);
-fusionedICML = sqrt(abs(errpP4xICML).^2 + abs(errpP4yICML).^2);
 fusionedKF = sqrt(abs(errpP4xKF).^2 + abs(errpP4yKF).^2); % KF Only
-fusioned = sqrt(abs(errpP4x).^2 + abs(errpP4y).^2);
 
 rmseFINALF4 = sqrt(mean(fusionedF.^2));
 rmseFINALIC4 = sqrt(mean(fusionedIC.^2));
-rmseFINALFML4 = sqrt(mean(fusionedFML.^2));
-rmseFINALICML4 = sqrt(mean(fusionedICML.^2));
 rmseFINALKF4 = sqrt(mean(fusionedKF.^2)); % KF Only
-rmseFINAL4 = sqrt(mean(fusioned.^2));
 
 %% 5th
 fusionedF = sqrt(abs(errpP5xF).^2 + abs(errpP5yF).^2);
 fusionedIC = sqrt(abs(errpP5xIC).^2 + abs(errpP5yIC).^2);
-fusionedFML = sqrt(abs(errpP5xFML).^2 + abs(errpP5yFML).^2);
-fusionedICML = sqrt(abs(errpP5xICML).^2 + abs(errpP5yICML).^2);
 fusionedKF = sqrt(abs(errpP5xKF).^2 + abs(errpP5yKF).^2); % KF Only
-fusioned = sqrt(abs(errpP5x).^2 + abs(errpP5y).^2);
 
 rmseFINALF5 = sqrt(mean(fusionedF.^2));
 rmseFINALIC5 = sqrt(mean(fusionedIC.^2));
-rmseFINALFML5 = sqrt(mean(fusionedFML.^2));
-rmseFINALICML5 = sqrt(mean(fusionedICML.^2));
 rmseFINALKF5 = sqrt(mean(fusionedKF.^2)); % KF Only
-rmseFINAL5 = sqrt(mean(fusioned.^2));
 
 %% 6th
 fusionedF = sqrt(abs(errpP6xF).^2 + abs(errpP6yF).^2);
 fusionedIC = sqrt(abs(errpP6xIC).^2 + abs(errpP6yIC).^2);
-fusionedFML = sqrt(abs(errpP6xFML).^2 + abs(errpP6yFML).^2);
-fusionedICML = sqrt(abs(errpP6xICML).^2 + abs(errpP6yICML).^2);
 fusionedKF = sqrt(abs(errpP6xKF).^2 + abs(errpP6yKF).^2); % KF Only
-fusioned = sqrt(abs(errpP6x).^2 + abs(errpP6y).^2);
 
 rmseFINALF6 = sqrt(mean(fusionedF.^2));
 rmseFINALIC6 = sqrt(mean(fusionedIC.^2));
-rmseFINALFML6 = sqrt(mean(fusionedFML.^2));
-rmseFINALICML6 = sqrt(mean(fusionedICML.^2));
 rmseFINALKF6 = sqrt(mean(fusionedKF.^2)); % KF Only
-rmseFINAL6 = sqrt(mean(fusioned.^2));
 
 %% 7th
 fusionedF = sqrt(abs(errpP7xF).^2 + abs(errpP7yF).^2);
 fusionedIC = sqrt(abs(errpP7xIC).^2 + abs(errpP7yIC).^2);
-fusionedFML = sqrt(abs(errpP7xFML).^2 + abs(errpP7yFML).^2);
-fusionedICML = sqrt(abs(errpP7xICML).^2 + abs(errpP7yICML).^2);
 fusionedKF = sqrt(abs(errpP7xKF).^2 + abs(errpP7yKF).^2); % KF Only
-fusioned = sqrt(abs(errpP7x).^2 + abs(errpP7y).^2);
 
 rmseFINALF = sqrt(mean(fusionedF.^2)); % Corrected Flex only
 rmseFINALIC = sqrt(mean(fusionedIC.^2)); % Corrected IMU only
-rmseFINALFML = sqrt(mean(fusionedFML.^2));  % Flex and ML
-rmseFINALICML = sqrt(mean(fusionedICML.^2)); % Corrected IMU and ML
 rmseFINALKF = sqrt(mean(fusionedKF.^2)); % KF Only
-rmseFINAL = sqrt(mean(fusioned.^2)); % ML + IMU(c) + Flex + KF (everything)
-
 
 %% BOX PLOT - we use this 
 rmseValues = [rmseFINALKF, rmseFINALF, rmseFINALIC];
@@ -253,7 +186,6 @@ allData = [fusionedKF, fusionedF, fusionedIC];
 labels = {'KF', 'Bend Sensor', 'IMU'};
 
 figure;
-
 boxplot(allData, 'Labels', labels, 'Symbol', '');
 
 hold on;
@@ -269,18 +201,9 @@ ylabel('Error (mm)');
 legend('RMSE', 'Location', 'Best');
 set(gca, 'FontName', 'Times New Roman');
 
-
-
 %% CALCULATE RMSE AT the index - JOINT FRAME EACH (NOT PROPAGATED) - we can make a error table
-% KF ML PCC - Our Method
-rmse2 = calculateRMSE_xy(finalCord2jnt(cI, :), cord2_Vjnt(cI, :));
-rmse3 = calculateRMSE_xy(finalCord3jnt(cI, :), cord3_Vjnt(cI, :));
-rmse4 = calculateRMSE_xy(finalCord4jnt(cI, :), cord4_Vjnt(cI, :));
-rmse5 = calculateRMSE_xy(finalCord5jnt(cI, :), cord5_Vjnt(cI, :));
-rmse6 = calculateRMSE_xy(finalCord6jnt(cI, :), cord6_Vjnt(cI, :));
-rmse7 = calculateRMSE_xy(finalCord7jnt(cI, :), cord7_Vjnt(cI, :));
 
-% PCC  + Flex Data  %%%%%%%%%%%%%%%%%
+% PCC  + Flex Data
 rmse2F = calculateRMSE_xy(cord_2Fjnt(cI, :), cord2_Vjnt(cI, :));
 rmse3F = calculateRMSE_xy(cord_3Fjnt(cI, :), cord3_Vjnt(cI, :));
 rmse4F = calculateRMSE_xy(cord_4Fjnt(cI, :), cord4_Vjnt(cI, :));
@@ -288,7 +211,7 @@ rmse5F = calculateRMSE_xy(cord_5Fjnt(cI, :), cord5_Vjnt(cI, :));
 rmse6F = calculateRMSE_xy(cord_6Fjnt(cI, :), cord6_Vjnt(cI, :));
 rmse7F = calculateRMSE_xy(cord_7Fjnt(cI, :), cord7_Vjnt(cI, :));
 
-% PCC IMU (c) Data (with cI index) %%%%%%%%%%%%%%%%%
+% PCC IMU (c) Data (with cI index) 
 rmse2IC = calculateRMSE_xy(cord_2I_Cjnt(cI, :), cord2_Vjnt(cI, :));
 rmse3IC = calculateRMSE_xy(cord_3I_Cjnt(cI, :), cord3_Vjnt(cI, :));
 rmse4IC = calculateRMSE_xy(cord_4I_Cjnt(cI, :), cord4_Vjnt(cI, :));
@@ -296,23 +219,7 @@ rmse5IC = calculateRMSE_xy(cord_5I_Cjnt(cI, :), cord5_Vjnt(cI, :));
 rmse6IC = calculateRMSE_xy(cord_6I_Cjnt(cI, :), cord6_Vjnt(cI, :));
 rmse7IC = calculateRMSE_xy(cord_7I_Cjnt(cI, :), cord7_Vjnt(cI, :));
 
-%  PCC BEND ML 
-rmse2FML = calculateRMSE_xy(cord_ml_2Fjnt(cI, :), cord2_Vjnt(cI, :));
-rmse3FML = calculateRMSE_xy(cord_ml_3Fjnt(cI, :), cord3_Vjnt(cI, :));
-rmse4FML = calculateRMSE_xy(cord_ml_4Fjnt(cI, :), cord4_Vjnt(cI, :));
-rmse5FML = calculateRMSE_xy(cord_ml_5Fjnt(cI, :), cord5_Vjnt(cI, :));
-rmse6FML = calculateRMSE_xy(cord_ml_6Fjnt(cI, :), cord6_Vjnt(cI, :));
-rmse7FML = calculateRMSE_xy(cord_ml_7Fjnt(cI, :), cord7_Vjnt(cI, :));
-
-% IMU PCC ML
-rmse2ICML = calculateRMSE_xy(cord_ml_2ICjnt(cI, :), cord2_Vjnt(cI, :));
-rmse3ICML = calculateRMSE_xy(cord_ml_3ICjnt(cI, :), cord3_Vjnt(cI, :));
-rmse4ICML = calculateRMSE_xy(cord_ml_4ICjnt(cI, :), cord4_Vjnt(cI, :));
-rmse5ICML = calculateRMSE_xy(cord_ml_5ICjnt(cI, :), cord5_Vjnt(cI, :));
-rmse6ICML = calculateRMSE_xy(cord_ml_6ICjnt(cI, :), cord6_Vjnt(cI, :));
-rmse7ICML = calculateRMSE_xy(cord_ml_7ICjnt(cI, :), cord7_Vjnt(cI, :));
-
-% KF only %%%%%%%%%%%%%%%%%%%%
+% KF only 
 rmse2KFonly = calculateRMSE_xy(finalCord2jntNO(cI, :), cord2_Vjnt(cI, :));
 rmse3KFonly = calculateRMSE_xy(finalCord3jntNO(cI, :), cord3_Vjnt(cI, :));
 rmse4KFonly = calculateRMSE_xy(finalCord4jntNO(cI, :), cord4_Vjnt(cI, :));
@@ -420,4 +327,3 @@ function [cord_rmseX, cord_rmseY, rmsePx, rmsePy, errp2x, errp2y, errp3x, ...
     rmsePx = [rmseP2x, rmseP3x, rmseP4x, rmseP5x, rmseP6x, rmseP7x];
     rmsePy = [rmseP2y, rmseP3y, rmseP4y, rmseP5y, rmseP6y, rmseP7y];
 end
-
